@@ -145,7 +145,7 @@ class OboParser():
         # first check, if an obo tree was imported, so that this tree
         # has to be used in the tree building
         try:
-            for oboObj in xrange(0, len(self.headers['import']), 2):
+            for oboObj in xrange(1, len(self.headers['import']) + 1, 2):
                 oboObj.calcTree(check)
                 self.tree.update(oboObj.tree)
         except:
@@ -154,14 +154,16 @@ class OboParser():
         # ok, now append all stanzas from this file
         for item in self.stanzas["Term"]:
             item['childrens'] = []
-            self.tree[item["id"][0][1]] = item
+            self.tree[item["id"][0][0]] = item
         
-        # perfect and now init the parents
+        # perfect and now init the childrens (parents already init with is_a)
         for key in self.tree:
             node = self.tree[key]
-            if hasattr(node, "is_a"):
-                for element in node.is_a:
+            try:
+                for element in node["is_a"]:
                     self.tree[ element[0] ]['childrens'].append(key)
+            except:
+                pass
     
     # read in an obo file
     @staticmethod
@@ -190,5 +192,6 @@ if __name__ == "__main__":
     parser.add_argument("-f", "--file", dest="file", required=True, )
     args = parser.parse_args()
     obo = OboParser.readOboFile(args.file)
-#    print(obo.header)
-#    print(obo.stanzas)
+    print(obo.header)
+    print(obo.stanzas)
+    print(obo.tree)
