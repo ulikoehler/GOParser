@@ -153,7 +153,7 @@ class OboParser():
         
         # ok, now append all stanzas from this file
         for item in self.stanzas["Term"]:
-            item.childrens = []
+            item['childrens'] = []
             self.tree[item["id"][0][1]] = item
         
         # perfect and now init the parents
@@ -161,7 +161,7 @@ class OboParser():
             node = self.tree[key]
             if hasattr(node, "is_a"):
                 for element in node.is_a:
-                    self.tree[ element[0] ].childrens.append(key)
+                    self.tree[ element[0] ]['childrens'].append(key)
     
     # read in an obo file
     @staticmethod
@@ -189,6 +189,6 @@ if __name__ == "__main__":
     parser =  argparse.ArgumentParser()
     parser.add_argument("-f", "--file", dest="file", required=True, )
     args = parser.parse_args()
-    obo = OboParser.readOboFile(args.file, False)
+    obo = OboParser.readOboFile(args.file)
 #    print(obo.header)
 #    print(obo.stanzas)
