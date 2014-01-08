@@ -5,7 +5,7 @@
 # 
 
 # imports
-import urllib
+import urllib2
 
 # obo file parsing class
 class OboParser():
@@ -180,7 +180,7 @@ class OboParser():
         
         """ shortcut for reading an obo file directly from an url """
         
-        return OboParser(urllib.urlopen(oboUrl).read(), calcTree)
+        return OboParser(urllib2.urlopen(oboUrl).read(), calcTree)
 
 # test/example usage
 if __name__ == "__main__":
